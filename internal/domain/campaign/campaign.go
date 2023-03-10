@@ -43,14 +43,10 @@ func validateCampaignProperties(name *string, content *string, rawContacts *[]st
 
 	if *name == "" {
 		_error = errors.New("Name is required")
-	}
-
-	if *content == "" {
+	} else if *content == "" {
 		_error = errors.New("Content is required")
-	}
-
-	if len(*rawContacts) == 0 {
-		_error = errors.New("Contacts are required")
+	} else if len(*rawContacts) == 0 {
+		_error = errors.("Contacts are required")
 	}
 
 	return _error
