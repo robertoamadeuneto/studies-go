@@ -21,8 +21,8 @@ func NewCampaign(name string, content string, rawContacts []string) *Campaign {
 	}
 
 	return &Campaign{
-		Id:        "1",
-		Name:      name,
+		Id:        "2",
+		Name:      "a",
 		Content:   content,
 		Contacts:  contacts,
 		CreatedOn: time.Now(),
