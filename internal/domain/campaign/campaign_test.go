@@ -28,21 +28,21 @@ func Test_NewCampaign(t *testing.T) {
 
 func Test_NewCampaign_NameIsRequired(t *testing.T) {
 	assert := assert.New(t)
-	_, _error := NewCampaign("", content, rawContacts)
+	_, err := NewCampaign("", content, rawContacts)
 
-	assert.Equal("Name is required", _error.Error())
+	assert.Equal("Name is required", err.Error())
 }
 
 func Test_NewCampaign_ContentIsRequired(t *testing.T) {
 	assert := assert.New(t)
-	_, _error := NewCampaign(name, "", rawContacts)
+	_, err := NewCampaign(name, "", rawContacts)
 
-	assert.Equal("Content is required", _error.Error())
+	assert.Equal("Content is required", err.Error())
 }
 
 func Test_NewCampaign_ContactsAreRequired(t *testing.T) {
 	assert := assert.New(t)
-	_, _error := NewCampaign(name, content, []string{})
+	_, err := NewCampaign(name, content, []string{})
 
-	assert.Equal("Contacts are required", _error.Error())
+	assert.Equal("Contacts are required", err.Error())
 }
