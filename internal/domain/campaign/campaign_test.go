@@ -1,4 +1,4 @@
-package compaign
+package campaign
 
 import (
 	"testing"
