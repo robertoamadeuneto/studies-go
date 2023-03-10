@@ -5,11 +5,26 @@ import "time"
 type Campaign struct {
 	Id        string
 	Name      string
-	CreatedOn time.Time
 	Content   string
 	Contacts  []Contact
+	CreatedOn time.Time
 }
 
 type Contact struct {
-	Email string
+	Value string
+}
+
+func NewCampaign(name string, content string, rawContacts []string) *Campaign {
+	contacts := make([]Contact, len(rawContacts))
+	for index, rawContact := range rawContacts {
+		contacts[index].Value = rawContact
+	}
+
+	return &Campaign{
+		Id:        "1",
+		Name:      name,
+		Content:   content,
+		Contacts:  contacts,
+		CreatedOn: time.Now(),
+	}
 }
