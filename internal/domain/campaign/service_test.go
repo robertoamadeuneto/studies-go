@@ -21,8 +21,6 @@ func (repository *repositoryMock) Save(campaign *Campaign) error {
 }
 
 var (
-	repository     = new(repositoryMock)
-	service        = Service{repository}
 	newCampaignDto = contract.NewCampaignDto{
 		Name:     "New Campaign",
 		Content:  "This is a test Campaign",
@@ -32,6 +30,8 @@ var (
 
 func Test_Should_Create_Campaign(t *testing.T) {
 	assert := assert.New(t)
+	repository := new(repositoryMock)
+	service := Service{repository}
 	repository.On("Save", mock.MatchedBy(func(campaign *Campaign) bool {
 		if campaign.Name != newCampaignDto.Name ||
 			campaign.Content != newCampaignDto.Content ||
@@ -52,9 +52,10 @@ func Test_Should_Create_Campaign(t *testing.T) {
 
 func Test_Should_Not_Create_Campaign_When_NewCampaign_Returns_Error(t *testing.T) {
 	assert := assert.New(t)
-	newCampaignDto.Name = ""
+	repository := new(repositoryMock)
+	service := Service{repository}
 
-	_, err := service.Create(newCampaignDto)
+	_, err := service.Create(contract.NewCampaignDto{})
 
 	assert.NotNil(err)
 	repository.AssertNotCalled(t, "Save")
@@ -62,6 +63,8 @@ func Test_Should_Not_Create_Campaign_When_NewCampaign_Returns_Error(t *testing.T
 
 func Test_Should_Not_Create_Campaign_When_Repository_Save_Returns_Error(t *testing.T) {
 	assert := assert.New(t)
+	repository := new(repositoryMock)
+	service := Service{repository}
 	repository.On("Save", mock.Anything).Return(errors.New("Error trying to communicate with database!"))
 
 	_, err := service.Create(newCampaignDto)
