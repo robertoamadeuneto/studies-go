@@ -58,6 +58,7 @@ func Test_Should_Not_Create_Campaign_When_NewCampaign_Returns_Error(t *testing.T
 	assert.NotNil(err)
 	repository.AssertNotCalled(t, "Save")
 }
+
 func Test_Should_Not_Create_Campaign_When_Repository_Save_Returns_Error(t *testing.T) {
 	assert := assert.New(t)
 	mockedErrorMessage := "Error trying to communicate with database!"
