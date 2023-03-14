@@ -13,7 +13,7 @@ var (
 	rawContacts = []string{"test.campaign@email.com", "+551234567890"}
 )
 
-func Test_NewCampaign(t *testing.T) {
+func Test_Should_Build_NewCampaign(t *testing.T) {
 	assert := assert.New(t)
 	now := time.Now().Add(-time.Minute)
 
@@ -26,21 +26,21 @@ func Test_NewCampaign(t *testing.T) {
 	assert.Greater(campaign.CreatedOn, now)
 }
 
-func Test_NewCampaign_NameIsRequired(t *testing.T) {
+func Test_Should_Not_Build_NewCampaign_When_Name_Is_Empty(t *testing.T) {
 	assert := assert.New(t)
 	_, err := NewCampaign("", content, rawContacts)
 
 	assert.Equal("Name is required", err.Error())
 }
 
-func Test_NewCampaign_ContentIsRequired(t *testing.T) {
+func Test_Should_Not_Build_NewCampaign_When_Content_Is_Empty(t *testing.T) {
 	assert := assert.New(t)
 	_, err := NewCampaign(name, "", rawContacts)
 
 	assert.Equal("Content is required", err.Error())
 }
 
-func Test_NewCampaign_ContactsAreRequired(t *testing.T) {
+func Test_Should_Not_Build_NewCampaign_When_Contacts_Are_Empty(t *testing.T) {
 	assert := assert.New(t)
 	_, err := NewCampaign(name, content, []string{})
 
