@@ -2,6 +2,7 @@ package campaign
 
 import (
 	"emailn/internal/contract"
+	"emailn/internal/internalerrors"
 	"errors"
 	"testing"
 
@@ -61,12 +62,11 @@ func Test_Should_Not_Create_Campaign_When_NewCampaign_Returns_Error(t *testing.T
 
 func Test_Should_Not_Create_Campaign_When_Repository_Save_Returns_Error(t *testing.T) {
 	assert := assert.New(t)
-	mockedErrorMessage := "Error trying to communicate with database!"
-	repository.On("Save", mock.Anything).Return(errors.New(mockedErrorMessage))
+	repository.On("Save", mock.Anything).Return(errors.New("Error trying to communicate with database!"))
 
 	_, err := service.Create(newCampaignDto)
 
 	assert.NotNil(err)
-	assert.Equal(mockedErrorMessage, err.Error())
+	assert.True(errors.Is(internalerrors.InternalServerError, err))
 	repository.AssertNumberOfCalls(t, "Save", 1)
 }
