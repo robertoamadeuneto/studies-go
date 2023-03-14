@@ -1,53 +1,43 @@
 package campaign
 
 import (
-	"errors"
+	"emailn/internal/domain"
 	"time"
 
 	"github.com/rs/xid"
 )
 
 type Campaign struct {
-	Id        string
-	Name      string
-	Content   string
-	Contacts  []Contact
-	CreatedOn time.Time
+	Id        string    `validate:"required"`
+	Name      string    `validate:"min=5,max=24"`
+	Content   string    `validate:"min=5,max=1024"`
+	Contacts  []Contact `validate:"min=1,dive"`
+	CreatedOn time.Time `validate:"required"`
 }
 
 type Contact struct {
-	Value string
+	Value string `validate:"email|e164"`
 }
 
 func NewCampaign(name string, content string, rawContacts []string) (*Campaign, error) {
-	if _error := validateCampaignProperties(&name, &content, &rawContacts); _error != nil {
-		return nil, _error
-	}
-
 	contacts := make([]Contact, len(rawContacts))
 	for index, rawContact := range rawContacts {
 		contacts[index].Value = rawContact
 	}
 
-	return &Campaign{
+	campaign := &Campaign{
 		Id:        xid.New().String(),
 		Name:      name,
 		Content:   content,
 		Contacts:  contacts,
 		CreatedOn: time.Now(),
-	}, nil
-}
-
-func validateCampaignProperties(name *string, content *string, rawContacts *[]string) error {
-	var err error
-
-	if *name == "" {
-		err = errors.New("Name is required")
-	} else if *content == "" {
-		err = errors.New("Content is required")
-	} else if len(*rawContacts) == 0 {
-		err = errors.New("Contacts are required")
 	}
 
-	return err
+	err := domain.Validate(campaign)
+
+	if err == nil {
+		return campaign, nil
+	}
+
+	return nil, err
 }
