@@ -21,7 +21,7 @@ To run the application, execute the following command on your terminal:
 
 ### cosmtrek/air
 
-As an alternative, you can install [cosmtrek/air](https://github.com/cosmtrek/air), a live reload tool. With it installed, just run the following command on your terminal on `cmd/api/main.go` folder:
+As an alternative, you can install [cosmtrek/air](https://github.com/cosmtrek/air), a live reload tool. With it installed, just run the following command on your terminal while being on main project folder:
 
 `air`
 
