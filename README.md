@@ -27,4 +27,4 @@ As an alternative, you can install [cosmtrek/air](https://github.com/cosmtrek/ai
 
 ---
 
-Based on the Udemy course [Go (Golang) - Do zero ao avançado](https://www.udemy.com/course/golang-do-zero-ao-avancado/)
+Based on the Udemy course [Go (Golang) - Do zero ao avançado](https://www.udemy.com/course/golang-do-zero-ao-avancado/).
