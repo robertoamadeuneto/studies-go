@@ -1,7 +1,7 @@
 package campaign
 
 import (
-	"emailn/internal/contract"
+	"emailn/internal/dto"
 	"emailn/internal/internalerror"
 	"errors"
 	"testing"
@@ -25,7 +25,7 @@ func (repository *repositoryMock) Get() ([]Campaign, error) {
 }
 
 var (
-	newCampaignDto = contract.NewCampaignDto{
+	newCampaignDto = dto.NewCampaignDto{
 		Name:     "New Campaign",
 		Content:  "This is a test Campaign",
 		Contacts: []string{"test.campaign@email.com", "+551234567890"},
@@ -59,7 +59,7 @@ func Test_Should_Not_Create_Campaign_When_NewCampaign_Returns_Error(t *testing.T
 	repository := new(repositoryMock)
 	service := Service{repository}
 
-	_, err := service.Create(contract.NewCampaignDto{})
+	_, err := service.Create(dto.NewCampaignDto{})
 
 	assert.NotNil(err)
 	repository.AssertNotCalled(t, "Save")

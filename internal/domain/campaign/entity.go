@@ -1,7 +1,7 @@
 package campaign
 
 import (
-	"emailn/internal/domain"
+	"emailn/internal/domain/validator"
 	"time"
 
 	"github.com/rs/xid"
@@ -11,16 +11,16 @@ type Campaign struct {
 	Id        string    `validate:"required"`
 	Name      string    `validate:"min=5,max=24"`
 	Content   string    `validate:"min=5,max=1024"`
-	Contacts  []Contact `validate:"min=1,dive"`
+	Contacts  []contact `validate:"min=1,dive"`
 	CreatedOn time.Time `validate:"required"`
 }
 
-type Contact struct {
+type contact struct {
 	Value string `validate:"email|e164"`
 }
 
 func NewCampaign(name string, content string, rawContacts []string) (*Campaign, error) {
-	contacts := make([]Contact, len(rawContacts))
+	contacts := make([]contact, len(rawContacts))
 	for index, rawContact := range rawContacts {
 		contacts[index].Value = rawContact
 	}
@@ -33,7 +33,7 @@ func NewCampaign(name string, content string, rawContacts []string) (*Campaign, 
 		CreatedOn: time.Now(),
 	}
 
-	err := domain.Validate(campaign)
+	err := validator.ValidateEntity(campaign)
 
 	if err == nil {
 		return campaign, nil

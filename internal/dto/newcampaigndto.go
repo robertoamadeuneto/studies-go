@@ -1,4 +1,4 @@
-package contract
+package dto
 
 type NewCampaignDto struct {
 	Name     string

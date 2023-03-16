@@ -1,7 +1,7 @@
 package campaign
 
 import (
-	"emailn/internal/contract"
+	"emailn/internal/dto"
 	"emailn/internal/internalerror"
 )
 
@@ -9,7 +9,7 @@ type Service struct {
 	Repository Repository
 }
 
-func (service *Service) Create(dto contract.NewCampaignDto) (string, error) {
+func (service *Service) Create(dto dto.NewCampaignDto) (string, error) {
 	campaign, err := NewCampaign(dto.Name, dto.Content, dto.Contacts)
 
 	if err != nil {

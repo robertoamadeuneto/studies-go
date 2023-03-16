@@ -1,4 +1,4 @@
-package domain
+package validator
 
 import (
 	"errors"
@@ -6,9 +6,9 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-func Validate(object interface{}) error {
+func ValidateEntity(entity interface{}) error {
 	validate := validator.New()
-	err := validate.Struct(object)
+	err := validate.Struct(entity)
 
 	if err == nil {
 		return nil
