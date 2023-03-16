@@ -2,7 +2,7 @@ package campaign
 
 import (
 	"emailn/internal/contract"
-	"emailn/internal/internalerrors"
+	"emailn/internal/internalerror"
 	"errors"
 	"testing"
 
@@ -18,6 +18,10 @@ func (repository *repositoryMock) Save(campaign *Campaign) error {
 	args := repository.Called(campaign)
 
 	return args.Error(0)
+}
+
+func (repository *repositoryMock) Get() ([]Campaign, error) {
+	return nil, nil
 }
 
 var (
@@ -70,6 +74,6 @@ func Test_Should_Not_Create_Campaign_When_Repository_Save_Returns_Error(t *testi
 	_, err := service.Create(newCampaignDto)
 
 	assert.NotNil(err)
-	assert.True(errors.Is(internalerrors.InternalServerError, err))
+	assert.True(errors.Is(internalerror.InternalServerError, err))
 	repository.AssertNumberOfCalls(t, "Save", 1)
 }

@@ -6,7 +6,11 @@ type CampaignRepository struct {
 	campaigns []campaign.Campaign
 }
 
-func (c *CampaignRepository) Save(campaign *campaign.Campaign) error {
-	c.campaigns = append(c.campaigns, *campaign)
+func (repository *CampaignRepository) Save(campaign *campaign.Campaign) error {
+	repository.campaigns = append(repository.campaigns, *campaign)
 	return nil
+}
+
+func (repository *CampaignRepository) Get() ([]campaign.Campaign, error) {
+	return repository.campaigns, nil
 }
