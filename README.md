@@ -4,11 +4,11 @@
 This is a simple `Go` application created for study purposes.
 
 ## Technologies
-- [rs/xid](github.com/rs/xid)
-- [go-playground/validator](github.com/go-playground/validator) 
-- [go-chi/chi](github.com/go-chi/chi)
-- [stretchr/testify](github.com/stretchr/testify)
-- [jaswdr/faker](github.com/jaswdr/faker)
+- [rs/xid](https://github.com/rs/xid)
+- [go-playground/validator](https://github.com/go-playground/validator) 
+- [go-chi/chi](https://github.com/go-chi/chi)
+- [stretchr/testify](https://github.com/stretchr/testify)
+- [jaswdr/faker](https://github.com/jaswdr/faker)
 
 ## Run
 There are two main ways to run this project, and you can choose whichever one you like.

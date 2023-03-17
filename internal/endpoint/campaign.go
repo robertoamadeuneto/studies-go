@@ -1,14 +1,14 @@
 package endpoint
 
 import (
-	"emailn/internal/contract"
+	"emailn/internal/dto"
 	"net/http"
 
 	"github.com/go-chi/render"
 )
 
 func (handler *Handler) PostCampaign(writer http.ResponseWriter, request *http.Request) (interface{}, int, error) {
-	var newCampaignDto contract.NewCampaignDto
+	var newCampaignDto dto.NewCampaignDto
 	render.DecodeJSON(request.Body, &newCampaignDto)
 
 	id, err := handler.CampaignService.Create(newCampaignDto)
