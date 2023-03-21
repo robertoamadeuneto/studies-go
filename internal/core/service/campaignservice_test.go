@@ -1,8 +1,9 @@
-package campaign
+package service
 
 import (
-	"emailn/internal"
-	"emailn/internal/command"
+	"emailn/internal/core/command"
+	"emailn/internal/core/entity"
+	internalerror "emailn/internal/core/error"
 	"errors"
 	"testing"
 
@@ -14,16 +15,16 @@ type repositoryMock struct {
 	mock.Mock
 }
 
-func (repository *repositoryMock) Save(campaign *Campaign) error {
+func (repository *repositoryMock) Save(campaign *entity.Campaign) error {
 	args := repository.Called(campaign)
 
 	return args.Error(0)
 }
 
-func (repository *repositoryMock) FindAll() ([]Campaign, error) {
+func (repository *repositoryMock) FindAll() ([]entity.Campaign, error) {
 	args := repository.Called()
 
-	return args.Get(0).([]Campaign), args.Error(1)
+	return args.Get(0).([]entity.Campaign), args.Error(1)
 }
 
 var (
@@ -37,8 +38,8 @@ var (
 func Test_Create_WithValidData_ReturnsCampaignId(t *testing.T) {
 	assert := assert.New(t)
 	repository := new(repositoryMock)
-	service := ServiceImpl{repository}
-	repository.On("Save", mock.MatchedBy(func(campaign *Campaign) bool {
+	service := CampaignServiceImpl{repository}
+	repository.On("Save", mock.MatchedBy(func(campaign *entity.Campaign) bool {
 		if campaign.Name != newCampaigncommand.Name ||
 			campaign.Content != newCampaigncommand.Content ||
 			len(campaign.Contacts) != len(newCampaigncommand.Contacts) {
@@ -59,7 +60,7 @@ func Test_Create_WithValidData_ReturnsCampaignId(t *testing.T) {
 func Test_Create_WithInvalidNewCampaigncommand_ReturnsError(t *testing.T) {
 	assert := assert.New(t)
 	repository := new(repositoryMock)
-	service := ServiceImpl{repository}
+	service := CampaignServiceImpl{repository}
 
 	_, err := service.Create(command.NewCampaignCommand{})
 
@@ -70,12 +71,12 @@ func Test_Create_WithInvalidNewCampaigncommand_ReturnsError(t *testing.T) {
 func Test_Create_WhenRepositorySaveFails_ReturnsError(t *testing.T) {
 	assert := assert.New(t)
 	repository := new(repositoryMock)
-	service := ServiceImpl{repository}
+	service := CampaignServiceImpl{repository}
 	repository.On("Save", mock.Anything).Return(errors.New("Error trying to communicate with database!"))
 
 	_, err := service.Create(newCampaigncommand)
 
 	assert.NotNil(err)
-	assert.True(errors.Is(internal.InternalServerError, err))
+	assert.True(errors.Is(internalerror.InternalServerError, err))
 	repository.AssertNumberOfCalls(t, "Save", 1)
 }

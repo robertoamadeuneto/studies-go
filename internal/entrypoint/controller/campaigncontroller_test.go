@@ -2,8 +2,8 @@ package controller
 
 import (
 	"bytes"
-	"emailn/internal/command"
-	"emailn/internal/domain/campaign"
+	"emailn/internal/core/command"
+	"emailn/internal/core/entity"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -23,10 +23,10 @@ func (service *serviceMock) Create(command command.NewCampaignCommand) (string, 
 	return args.String(0), args.Error(1)
 }
 
-func (service *serviceMock) FindAll() ([]campaign.Campaign, error) {
+func (service *serviceMock) FindAll() ([]entity.Campaign, error) {
 	args := service.Called()
 
-	return args.Get(0).([]campaign.Campaign), args.Error(1)
+	return args.Get(0).([]entity.Campaign), args.Error(1)
 }
 
 func Test_CampaignPost_WhenRequestIsValid_CreatesNewCampaign(t *testing.T) {

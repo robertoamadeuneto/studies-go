@@ -1,10 +1,10 @@
 package main
 
 import (
-	"emailn/internal/domain/campaign"
+	"emailn/internal/core/service"
 	"emailn/internal/entrypoint/controller"
 	"emailn/internal/entrypoint/handler"
-	"emailn/internal/infra/database"
+	infrarepository "emailn/internal/infra/repository"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -19,8 +19,7 @@ func main() {
 	router.Use(middleware.Logger)
 	router.Use(middleware.Recoverer)
 
-	campaignService := campaign.ServiceImpl{Repository: &database.CampaignRepositoryImpl{}}
-
+	campaignService := service.CampaignServiceImpl{CampaignRepository: &infrarepository.CampaignRepositoryImpl{}}
 	campaignController := controller.CampaignController{CampaignService: &campaignService}
 
 	router.Post("/campaigns", handler.HandleResponse(campaignController.Create))

@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"emailn/internal"
+	internalerror "emailn/internal/core/error"
 	"encoding/json"
 	"errors"
 	"net/http"
@@ -14,7 +14,7 @@ import (
 func Test_HandleError_WhenOccursAnInternalServerError_Returns500(t *testing.T) {
 	assert := assert.New(t)
 	endpoint := func(writer http.ResponseWriter, request *http.Request) (interface{}, int, error) {
-		return nil, 0, internal.InternalServerError
+		return nil, 0, internalerror.InternalServerError
 	}
 	handlerFunc := HandleResponse(endpoint)
 	request, _ := http.NewRequest("GET", "/", nil)
@@ -23,7 +23,7 @@ func Test_HandleError_WhenOccursAnInternalServerError_Returns500(t *testing.T) {
 	handlerFunc.ServeHTTP(response, request)
 
 	assert.Equal(http.StatusInternalServerError, response.Code)
-	assert.Contains(response.Body.String(), internal.InternalServerError.Error())
+	assert.Contains(response.Body.String(), internalerror.InternalServerError.Error())
 }
 
 func Test_HandleError_WhenOccursValidatorError_Returns422(t *testing.T) {

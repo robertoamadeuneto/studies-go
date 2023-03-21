@@ -1,15 +1,15 @@
 package controller
 
 import (
-	"emailn/internal/command"
-	"emailn/internal/domain/campaign"
+	"emailn/internal/core/command"
+	"emailn/internal/core/service"
 	"net/http"
 
 	"github.com/go-chi/render"
 )
 
 type CampaignController struct {
-	CampaignService campaign.Service
+	CampaignService service.CampaignService
 }
 
 func (controller *CampaignController) Create(writer http.ResponseWriter, request *http.Request) (interface{}, int, error) {

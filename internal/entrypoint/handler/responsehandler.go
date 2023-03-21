@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"emailn/internal"
+	internalerror "emailn/internal/core/error"
 	"errors"
 	"net/http"
 
@@ -15,7 +15,7 @@ func HandleResponse(controllerFunc ControllerFunc) http.HandlerFunc {
 		object, status, err := controllerFunc(writer, request)
 
 		if err != nil {
-			if errors.Is(err, internal.InternalServerError) {
+			if errors.Is(err, internalerror.InternalServerError) {
 				render.Status(request, 500)
 			} else {
 				render.Status(request, 422)
