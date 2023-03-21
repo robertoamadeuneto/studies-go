@@ -32,7 +32,7 @@ var (
 	}
 )
 
-func Test_Should_Create_Campaign(t *testing.T) {
+func Test_Create_WithValidData_ReturnsCampaignId(t *testing.T) {
 	assert := assert.New(t)
 	repository := new(repositoryMock)
 	service := ServiceImpl{repository}
@@ -54,7 +54,7 @@ func Test_Should_Create_Campaign(t *testing.T) {
 	repository.AssertExpectations(t)
 }
 
-func Test_Should_Not_Create_Campaign_When_NewCampaign_Returns_Error(t *testing.T) {
+func Test_Create_WithInvalidNewCampaignDto_ReturnsError(t *testing.T) {
 	assert := assert.New(t)
 	repository := new(repositoryMock)
 	service := ServiceImpl{repository}
@@ -65,7 +65,7 @@ func Test_Should_Not_Create_Campaign_When_NewCampaign_Returns_Error(t *testing.T
 	repository.AssertNotCalled(t, "Save")
 }
 
-func Test_Should_Not_Create_Campaign_When_Repository_Save_Returns_Error(t *testing.T) {
+func Test_Create_WhenRepositorySaveFails_ReturnsError(t *testing.T) {
 	assert := assert.New(t)
 	repository := new(repositoryMock)
 	service := ServiceImpl{repository}
