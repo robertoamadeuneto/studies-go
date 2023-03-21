@@ -2,8 +2,9 @@ package main
 
 import (
 	"emailn/internal/domain/campaign"
-	"emailn/internal/endpoint"
-	"emailn/internal/infrastructure/database"
+	"emailn/internal/entrypoint/controller"
+	"emailn/internal/entrypoint/handler"
+	"emailn/internal/infra/database"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -18,12 +19,12 @@ func main() {
 	router.Use(middleware.Logger)
 	router.Use(middleware.Recoverer)
 
-	campaignService := campaign.ServiceImpl{Repository: &database.CampaignRepository{}}
+	campaignService := campaign.ServiceImpl{Repository: &database.CampaignRepositoryImpl{}}
 
-	handler := endpoint.Handler{CampaignService: &campaignService}
+	campaignController := controller.CampaignController{CampaignService: &campaignService}
 
-	router.Post("/campaigns", endpoint.HandleError(handler.PostCampaign))
-	router.Get("/campaigns", endpoint.HandleError(handler.GetCampaigns))
+	router.Post("/campaigns", handler.HandleResponse(campaignController.Create))
+	router.Get("/campaigns", handler.HandleResponse(campaignController.FindAll))
 
 	http.ListenAndServe(":3000", router)
 }

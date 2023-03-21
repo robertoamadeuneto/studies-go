@@ -1,6 +1,6 @@
-package dto
+package command
 
-type NewCampaignDto struct {
+type NewCampaignCommand struct {
 	Name     string
 	Content  string
 	Contacts []string

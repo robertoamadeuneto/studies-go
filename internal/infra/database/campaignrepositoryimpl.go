@@ -2,17 +2,17 @@ package database
 
 import "emailn/internal/domain/campaign"
 
-type CampaignRepository struct {
+type CampaignRepositoryImpl struct {
 	campaigns []campaign.Campaign
 }
 
-func (repository *CampaignRepository) Save(campaign *campaign.Campaign) error {
+func (repository *CampaignRepositoryImpl) Save(campaign *campaign.Campaign) error {
 	repository.campaigns = append(repository.campaigns, *campaign)
 
 	return nil
 }
 
-func (repository *CampaignRepository) Get() ([]campaign.Campaign, error) {
+func (repository *CampaignRepositoryImpl) FindAll() ([]campaign.Campaign, error) {
 	if repository.campaigns == nil {
 		return []campaign.Campaign{}, nil
 	}

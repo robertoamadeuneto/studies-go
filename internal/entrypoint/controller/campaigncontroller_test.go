@@ -1,9 +1,9 @@
-package endpoint
+package controller
 
 import (
 	"bytes"
+	"emailn/internal/command"
 	"emailn/internal/domain/campaign"
-	"emailn/internal/dto"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -17,13 +17,13 @@ type serviceMock struct {
 	mock.Mock
 }
 
-func (service *serviceMock) Create(dto dto.NewCampaignDto) (string, error) {
-	args := service.Called(dto)
+func (service *serviceMock) Create(command command.NewCampaignCommand) (string, error) {
+	args := service.Called(command)
 
 	return args.String(0), args.Error(1)
 }
 
-func (service *serviceMock) Get() ([]campaign.Campaign, error) {
+func (service *serviceMock) FindAll() ([]campaign.Campaign, error) {
 	args := service.Called()
 
 	return args.Get(0).([]campaign.Campaign), args.Error(1)
@@ -32,8 +32,8 @@ func (service *serviceMock) Get() ([]campaign.Campaign, error) {
 func Test_CampaignPost_WhenRequestIsValid_CreatesNewCampaign(t *testing.T) {
 	assert := assert.New(t)
 	service := new(serviceMock)
-	handler := Handler{CampaignService: service}
-	body := dto.NewCampaignDto{
+	handler := CampaignController{CampaignService: service}
+	body := command.NewCampaignCommand{
 		Name:     "Name",
 		Content:  "Content",
 		Contacts: []string{"test@email.com", "+55987458565"},
@@ -42,7 +42,7 @@ func Test_CampaignPost_WhenRequestIsValid_CreatesNewCampaign(t *testing.T) {
 	json.NewEncoder(&buffer).Encode(body)
 	request, _ := http.NewRequest("POST", "/", &buffer)
 	recorder := httptest.NewRecorder()
-	service.On("Create", mock.MatchedBy(func(request dto.NewCampaignDto) bool {
+	service.On("Create", mock.MatchedBy(func(request command.NewCampaignCommand) bool {
 		if request.Name == body.Name && request.Content == body.Content {
 			return true
 		}
@@ -50,7 +50,7 @@ func Test_CampaignPost_WhenRequestIsValid_CreatesNewCampaign(t *testing.T) {
 		return false
 	})).Return("123", nil)
 
-	json, status, err := handler.PostCampaign(recorder, request)
+	json, status, err := handler.Create(recorder, request)
 	assert.Equal(201, status)
 	assert.NotNil(json)
 	assert.Nil(err)

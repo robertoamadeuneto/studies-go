@@ -1,7 +1,7 @@
 package campaign
 
 import (
-	"emailn/internal/domain/validator"
+	"emailn/internal/domain"
 	"time"
 
 	"github.com/rs/xid"
@@ -33,7 +33,7 @@ func NewCampaign(name string, content string, rawContacts []string) (*Campaign, 
 		CreatedOn: time.Now(),
 	}
 
-	err := validator.ValidateEntity(campaign)
+	err := domain.ValidateEntity(campaign)
 
 	if err == nil {
 		return campaign, nil
