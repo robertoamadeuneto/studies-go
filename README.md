@@ -7,6 +7,7 @@ This is a simple `Go` application created for study purposes.
 - [rs/xid](https://github.com/rs/xid)
 - [go-playground/validator](https://github.com/go-playground/validator) 
 - [go-chi/chi](https://github.com/go-chi/chi)
+- [go-gorm/gorm](https://github.com/go-gorm/gorm)
 - [stretchr/testify](https://github.com/stretchr/testify)
 - [jaswdr/faker](https://github.com/jaswdr/faker)
 
