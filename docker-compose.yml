@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  emailn_postgres:
+    container_name: emailn_postgres
+    image: postgres:15.2
+    restart: always
+    environment:
+      - POSTGRES_USER=emailn
+      - POSTGRES_PASSWORD=emailn
+      - POSTGRES_DB=emailn
+    ports:
+      - 5432:5432
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:

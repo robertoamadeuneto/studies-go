@@ -1,21 +1,29 @@
 package repository
 
-import "emailn/internal/core/entity"
+import (
+	"emailn/internal/core/entity"
+
+	"gorm.io/gorm"
+)
 
 type CampaignRepositoryImpl struct {
-	campaigns []entity.Campaign
+	DatabaseConnection *gorm.DB
 }
 
 func (repository *CampaignRepositoryImpl) Save(campaign *entity.Campaign) error {
-	repository.campaigns = append(repository.campaigns, *campaign)
+	if result := repository.DatabaseConnection.Create(campaign); result.Error != nil {
+		return result.Error
+	}
 
 	return nil
 }
 
 func (repository *CampaignRepositoryImpl) FindAll() ([]entity.Campaign, error) {
-	if repository.campaigns == nil {
-		return []entity.Campaign{}, nil
+	var campaigns []entity.Campaign
+
+	if result := repository.DatabaseConnection.Find(&campaigns); result.Error != nil {
+		return nil, result.Error
 	}
 
-	return repository.campaigns, nil
+	return campaigns, nil
 }

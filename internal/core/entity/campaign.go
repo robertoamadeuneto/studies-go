@@ -8,19 +8,20 @@ import (
 )
 
 type Campaign struct {
-	Id        string    `validate:"required"`
+	Id        string    `validate:"required" gorm:"primaryKey"`
 	Name      string    `validate:"min=5,max=24"`
 	Content   string    `validate:"min=5,max=1024"`
-	Contacts  []contact `validate:"min=1,dive"`
+	Contacts  []Contact `validate:"min=1,dive"`
 	CreatedOn time.Time `validate:"required"`
 }
 
-type contact struct {
-	Value string `validate:"email|e164"`
+type Contact struct {
+	CampaignId string `gorm:"primaryKey"`
+	Value      string `validate:"email|e164" gorm:"primaryKey"`
 }
 
 func NewCampaign(name string, content string, rawContacts []string) (*Campaign, error) {
-	contacts := make([]contact, len(rawContacts))
+	contacts := make([]Contact, len(rawContacts))
 	for index, rawContact := range rawContacts {
 		contacts[index].Value = rawContact
 	}
